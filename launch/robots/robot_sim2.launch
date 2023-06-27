@@ -1,0 +1,14 @@
+<launch>
+    <group ns="robot_0">
+        <include file="$(find sample_nav)/launch/robots/nodes.launch">
+            <arg name="robot" value="1"/>
+        </include>
+    </group>
+
+    <group ns="robot_1">
+        <include file="$(find sample_nav)/launch/robots/nodes.launch">
+            <arg name="robot" value="2"/>
+        </include>
+    </group>
+
+</launch>

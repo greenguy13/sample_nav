@@ -1,0 +1,26 @@
+<launch>
+    <arg name="world" default="toy"/>
+    <arg name="robot_count" default="2"/>
+    <arg name="run" default="1"/>
+
+    <arg name="model" default="waffle_pi"/>
+    <arg name="cmd_vel_topic" default="/cmd_vel" />
+    <arg name="odom_topic" default="odom" />
+
+    <param name="/use_sim_time" value="true" />
+    <rosparam command="load" file="$(find sample_nav)/param/mission.yaml" subst_value="true"/>
+
+    <node name="Stage" pkg="stage_ros" type="stageros" args="$(find sample_nav)/world/$(arg world)$(arg robot_count).world">
+        <param name="base_watchdog_timeout" value="0" />
+    </node>
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find sample_nav)/param/$(arg world)_map.yaml">
+        <param name="frame_id" value="map" />
+    </node>
+
+    <include file="$(find sample_nav)/launch/robots/robot_sim$(arg robot_count).launch"> </include>
+
+    <!-- RVIZ to view the visualization -->
+    <node name="RVIZ" pkg="rviz" type="rviz" args=" -d $(find sample_nav)/param/mission.rviz" output="screen" />
+
+</launch>
