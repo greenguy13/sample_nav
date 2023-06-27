@@ -1,17 +1,8 @@
-GOAL: Make the move_base 
+This file launches two robots within a world where we send the robots to goal poses via <code>move_base</code>.
 
-What to place here?
-Launch file:
-mission.launch
-robots launchfile: nodes.launch, robot_sim2.launch
-
-mission.launch 
-
-robots:
-nodes.launch - name prefix, move base config, fake localization
-robot_sim2.launch - launches 2 robots with nodes.launch as the configuration 
-
-
-I think I know where the problem is now: base_link topic does not exist. This should be base_scan; 
-or the other way around.
-    
+To launch the environment after <code>catkin_make</code>: <code>roslaunch sample_nav mission.launch</code>. 
+Now, to run the script that sends the robot to goal poses: <code>python ~/catkin_ws/src/sample_nav/scripts/sample.py</code>.
+Note that in this exercise, we have three objectives:
+1. Request from <code>nav_msgs/GetPlan</code> service to plan a path from start to goal pose without actually moving the robot.
+2. Send a robot to goal pose via action client, <code>/robot_<robot_id>/move_base/goal</code>.
+3. Send a robot to goal pose by publishing to <code>/robot_<robot_id>/move_base_simple/goal</code>.

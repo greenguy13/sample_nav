@@ -14,16 +14,16 @@ class Navigator:
         #Service client to GetPlan
         #Interesting: For multi-robot, shouldn't this be robot-specific; i.e., either robot 0 or 1
         #But if we rossrv list there is only nav_msgs/GetPlan
-        # rospy.wait_for_service('nav_msgs/GetPlan')
-        # self.get_plan = rospy.ServiceProxy('nav_msgs/GetPlan', GetPlan)
+        rospy.wait_for_service('nav_msgs/GetPlan')
+        self.get_plan = rospy.ServiceProxy('nav_msgs/GetPlan', GetPlan)
 
         #Send robot to goal
         #Option 1: Action client to move base
         #Robot 0 or 1 for nrobots=2
-        # self.robot_goal_clients = dict()
-        # for robot_id in range(nrobots):
-        #     self.robot_goal_clients['robot'+str(robot_id)] = actionlib.SimpleActionClient('/robot_'+str(robot_id)+'/move_base/goal', MoveBaseAction)
-        #     self.robot_goal_clients['robot'+str(robot_id)].wait_for_server()
+        self.robot_goal_clients = dict()
+        for robot_id in range(nrobots):
+            self.robot_goal_clients['robot'+str(robot_id)] = actionlib.SimpleActionClient('/robot_'+str(robot_id)+'/move_base/goal', MoveBaseAction)
+            self.robot_goal_clients['robot'+str(robot_id)].wait_for_server()
 
         #Option 2: Subscribed topic
         self.robot_goal_topics = dict()
@@ -96,11 +96,13 @@ if __name__== '__main__':
     navigator = Navigator('sample_nav', 2)
 
     #Subscribe to GetPlan service
+    #Uncomment below
     # tolerance = 0.5
     # plan = navigator.get_plan_cb(start, goal, tolerance)
     # print(plan)
 
     #Action client to move_base: Send robot to goal
+    #Uncommment below
     # navigator.send_robot_goal_cb(0, goal)
 
     #Publish topic to send robot to goal
