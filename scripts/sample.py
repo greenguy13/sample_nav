@@ -130,8 +130,6 @@ class Navigator:
             self.available = False
         print("Avail:", self.available)
 
-        #Need to check the state
-
     def action_send_done_cb(self, state, result, robot_id):
         """
 
